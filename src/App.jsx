@@ -1,4 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { format } from "date-fns";
 import About from "./components/About";
 import Header from "./components/Header";
 import Home from "./components/Home";
@@ -6,8 +8,6 @@ import NewPost from "./components/NewPost";
 import PostDetail from "./components/PostDetail";
 import NotFound from "./components/NotFound";
 import EditPost from "./components/EditPost";
-import { useEffect, useState } from "react";
-import { format } from "date-fns";
 import api from "./api/posts";
 
 function App() {
@@ -25,8 +25,11 @@ function App() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await api.get("/posts");
+        const response = await api.get("/items", {
+          'mode': 'no-cors',
+        });
         setPosts(response.data);
+        // console.log(response.data)
       } catch (error) {
         if (error.response) {
           console.log(error.response.data);
@@ -83,7 +86,7 @@ function App() {
       img: editImg,
     };
     try {
-      const response = await api.put(`/posts/${id}`, updatedPost);
+      const response = await api.put(`/items/${id}`, updatedPost);
       setPosts(
         posts.map((post) => (post.id === id ? { ...response.data } : post))
       );
