@@ -25,11 +25,8 @@ function App() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await api.get("/items", {
-          'mode': 'no-cors',
-        });
+        const response = await api.get("/posts");
         setPosts(response.data);
-        // console.log(response.data)
       } catch (error) {
         if (error.response) {
           console.log(error.response.data);
@@ -86,7 +83,7 @@ function App() {
       img: editImg,
     };
     try {
-      const response = await api.put(`/items/${id}`, updatedPost);
+      const response = await api.put(`/posts/${id}`, updatedPost);
       setPosts(
         posts.map((post) => (post.id === id ? { ...response.data } : post))
       );
