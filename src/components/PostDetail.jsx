@@ -2,10 +2,24 @@ import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { useParams, NavLink } from "react-router-dom";
 import { BsTrash } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
+import { useContext } from "react";
+import api from '../api/posts'
+import DataContext from "../context/DataContext";
 
-const PostDetail = ({ posts, handleDelete }) => {
+const PostDetail = () => {
+  const { posts, setPosts } = useContext(DataContext)
   const { id } = useParams();
   const post = posts.find((post) => post.id.toString() === id);
+
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/posts/${id}`);
+      const postList = posts.filter((post) => post.id !== id);
+      setPosts(postList);
+    } catch (error) {
+      console.log(`Error: ${error.message}`);
+    }
+  };
   return (
     <Container className="mt-5">
       <main>

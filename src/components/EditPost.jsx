@@ -1,17 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { useParams, NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { format } from "date-fns";
+import api from "../api/posts";
+import DataContext from "../context/DataContext";
 
-const EditPost = ({
-  posts,
-  handleEdit,
-  editTitle,
-  setEditTitle,
-  editBody,
-  setEditBody,
-  editImg,
-  setEditImg,
-}) => {
+const EditPost = () => {
+  const [editTitle, setEditTitle] = useState("");
+  const [editBody, setEditBody] = useState("");
+  const [editImg, setEditImg] = useState("");
+  const { posts, setPosts } = useContext(DataContext);
   const { id } = useParams();
   const post = posts.find((post) => post.id.toString() === id);
 
@@ -22,6 +21,28 @@ const EditPost = ({
       setEditImg(post.img);
     }
   }, [post, setEditTitle, setEditBody, setEditImg]);
+
+  const handleEdit = async (id) => {
+    const datetime = format(new Date(), "MMM dd, yyyy pp");
+    const updatedPost = {
+      id,
+      title: editTitle,
+      datetime,
+      body: editBody,
+      img: editImg,
+    };
+    try {
+      const response = await api.put(`/posts/${id}`, updatedPost);
+      setPosts(
+        posts.map((post) => (post.id === id ? { ...response.data } : post))
+      );
+      setEditTitle("");
+      setEditBody("");
+      setEditImg("");
+    } catch (error) {
+      console.log(`Error: ${error.message}`);
+    }
+  };
 
   return (
     <Container className="mt-5 shadow border rounded p-5">

@@ -1,21 +1,25 @@
 import React from "react";
 import { Container, Form, FormControl, Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import logoW from "../assets/logoW.png";
+import { FaLaptop, FaTabletAlt, FaMobileAlt } from "react-icons/fa";
+import { useContext } from "react";
+import DataContext from "../context/DataContext";
 
-const Header = ({ search, setSearch }) => {
+const Header = () => {
+  const { width, search, setSearch } = useContext(DataContext)
+
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
         <Navbar.Brand>
           <NavLink to="/" className="mx-2">
-            <img
-              src={logoW}
-              width="40"
-              height="40"
-              className="d-inline-block align-top"
-              alt="Axel Mullins"
-            />
+            {width < 768 ? (
+              <FaMobileAlt size="40px" color="grey"/>
+            ) : width < 992 ? (
+              <FaTabletAlt size="40px" color="grey" />
+            ) : (
+              <FaLaptop size="40px" color="grey" />
+            )}
           </NavLink>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -35,7 +39,7 @@ const Header = ({ search, setSearch }) => {
               About
             </NavLink>
           </Nav>
-          <Form className="d-flex">
+          <Form className="d-flex" onSubmit={(e) => {e.preventDefault()}}>
             <FormControl
               type="search"
               placeholder="Search"

@@ -1,14 +1,40 @@
 import { Button, Container, Form } from "react-bootstrap";
+import { useState, useContext } from "react";
+import DataContext from "../context/DataContext";
+import { format } from "date-fns";
+import api from "../api/posts";
 
-const Post = ({
-  setPostTitle,
-  postTitle,
-  setPostBody,
-  postBody,
-  setPostImg,
-  postImg,
-  handleSubmit,
-}) => {
+const Post = () => {
+  const [postTitle, setPostTitle] = useState("");
+  const [postBody, setPostBody] = useState("");
+  const [postImg, setPostImg] = useState("");
+  const [postCreated, setPostCreated] = useState(false);
+  const { posts, setPosts } = useContext(DataContext);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const id = posts.length ? posts[posts.length - 1].id + 1 : 1;
+    const datetime = format(new Date(), "MMM dd, yyyy pp");
+    const newPost = {
+      id,
+      title: postTitle,
+      datetime,
+      body: postBody,
+      img: postImg,
+    };
+    try {
+      const response = await api.post("/posts", newPost);
+      const allPosts = [...posts, response.data];
+      setPosts(allPosts);
+      setPostTitle("");
+      setPostBody("");
+      setPostImg("");
+      setPostCreated(true);
+    } catch (error) {
+      console.log(`Error: ${error.message}`);
+    }
+  };
+
   return (
     <Container className="mt-5 shadow border rounded p-5">
       <h2 className="mb-4">New Post</h2>
