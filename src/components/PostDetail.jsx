@@ -3,11 +3,11 @@ import { useParams, NavLink } from "react-router-dom";
 import { BsTrash } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
 import { useContext } from "react";
-import api from '../api/posts'
+import api from "../api/posts";
 import DataContext from "../context/DataContext";
 
 const PostDetail = () => {
-  const { posts, setPosts } = useContext(DataContext)
+  const { posts, setPosts } = useContext(DataContext);
   const { id } = useParams();
   const post = posts.find((post) => post.id.toString() === id);
 
@@ -35,9 +35,7 @@ const PostDetail = () => {
                   <BsTrash size="1.6em" color="red" />
                 </Button>
                 <NavLink to={`/editpost${post.id}`}>
-                  <Button
-                    variant="transparent"
-                  >
+                  <Button variant="transparent">
                     <FiEdit size="1.6em" color="black" />
                   </Button>
                 </NavLink>
