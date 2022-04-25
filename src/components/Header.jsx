@@ -6,7 +6,7 @@ import { useContext } from "react";
 import DataContext from "../context/DataContext";
 
 const Header = () => {
-  const { width, search, setSearch } = useContext(DataContext)
+  const { width, search, setSearch } = useContext(DataContext);
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
@@ -14,7 +14,7 @@ const Header = () => {
         <Navbar.Brand>
           <NavLink to="/" className="mx-2">
             {width < 768 ? (
-              <FaMobileAlt size="40px" color="grey"/>
+              <FaMobileAlt size="40px" color="grey" />
             ) : width < 992 ? (
               <FaTabletAlt size="40px" color="grey" />
             ) : (
@@ -29,17 +29,46 @@ const Header = () => {
             style={{ maxHeight: "100px" }}
             navbarScroll
           >
-            <NavLink to="/" className="text-white me-4">
+            <NavLink
+              to="/"
+              className="me-4"
+              style={({ isActive }) =>
+                isActive
+                  ? { color: "aqua", fontWeight: "bold" }
+                  : { color: "white" }
+              }
+            >
               Home
             </NavLink>
-            <NavLink to="/newpost" className="text-white me-4">
+            <NavLink
+              to="/newpost"
+              className="me-4"
+              style={({ isActive }) =>
+                isActive
+                  ? { color: "aqua", fontWeight: "bold" }
+                  : { color: "white" }
+              }
+            >
               New Post
             </NavLink>
-            <NavLink to="/about" className="text-white me-4">
+            <NavLink
+              to="/about"
+              className="me-4"
+              style={({ isActive }) =>
+                isActive
+                  ? { color: "aqua", fontWeight: "bold" }
+                  : { color: "white" }
+              }
+            >
               About
             </NavLink>
           </Nav>
-          <Form className="d-flex" onSubmit={(e) => {e.preventDefault()}}>
+          <Form
+            className="d-flex"
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+          >
             <FormControl
               type="search"
               placeholder="Search"

@@ -34,7 +34,7 @@ const PostDetail = () => {
                 >
                   <BsTrash size="1.6em" color="red" />
                 </Button>
-                <NavLink to={`/editpost${post.id}`}>
+                <NavLink to={`/editpost/${post.id}`}>
                   <Button variant="transparent">
                     <FiEdit size="1.6em" color="black" />
                   </Button>
